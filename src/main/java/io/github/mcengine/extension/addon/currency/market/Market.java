@@ -3,11 +3,16 @@ package io.github.mcengine.extension.addon.currency.market;
 import io.github.mcengine.api.currency.extension.addon.IMCEngineCurrencyAddOn;
 import io.github.mcengine.api.mcengine.MCEngineApi;
 import io.github.mcengine.api.mcengine.extension.addon.MCEngineAddOnLogger;
+import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
 import io.github.mcengine.extension.addon.currency.market.tabcompleter.MarketTabCompleter;
+import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.currency.market.util.MarketItemFileGenerator;
+import io.github.mcengine.extension.addon.currency.market.util.MarketItemLoader;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -21,11 +26,14 @@ public class Market implements IMCEngineCurrencyAddOn {
     @Override
     public void onLoad(Plugin plugin) {
         MCEngineAddOnLogger logger = new MCEngineAddOnLogger(plugin, "MCEngineMarket");
+        MarketItemFileGenerator.createSimpleFiles(plugin, logger);
+
+        Map<String, MenuData> menus = MarketItemLoader.loadAllMarketMenus(plugin, logger);
+        MarketCache.setMenus(menus);
 
         try {
             PluginManager pluginManager = Bukkit.getPluginManager();
 
-            // Register command dynamically
             Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             commandMapField.setAccessible(true);
             CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
@@ -51,7 +59,6 @@ public class Market implements IMCEngineCurrencyAddOn {
             commandMap.register(plugin.getName().toLowerCase(), marketCommand);
 
             logger.info("Market command registered.");
-
         } catch (Exception e) {
             logger.warning("Failed to initialize Market AddOn: " + e.getMessage());
             e.printStackTrace();

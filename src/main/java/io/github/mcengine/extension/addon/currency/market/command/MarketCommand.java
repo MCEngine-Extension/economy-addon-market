@@ -1,5 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.command;
 
+import io.github.mcengine.extension.addon.currency.market.util.MarketCommandUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,8 +21,8 @@ public class MarketCommand implements CommandExecutor {
         }
 
         switch (args[0].toLowerCase()) {
-            case "buy" -> player.sendMessage("§aOpening the buy menu...");
-            case "sell" -> player.sendMessage("§aOpening the sell interface...");
+            case "buy" -> MarketCommandUtil.openBuyMenu(player);
+            case "sell" -> MarketCommandUtil.openSellMenu(player);
             case "list" -> player.sendMessage("§aListing available market items...");
             default -> player.sendMessage("§cUnknown market action. Use: buy, sell, or list.");
         }

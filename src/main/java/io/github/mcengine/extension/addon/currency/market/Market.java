@@ -5,6 +5,7 @@ import io.github.mcengine.api.mcengine.MCEngineApi;
 import io.github.mcengine.api.mcengine.extension.addon.MCEngineAddOnLogger;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
+import io.github.mcengine.extension.addon.currency.market.listener.MarketListener;
 import io.github.mcengine.extension.addon.currency.market.tabcompleter.MarketTabCompleter;
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
 import io.github.mcengine.extension.addon.currency.market.util.MarketItemFileGenerator;
@@ -33,6 +34,7 @@ public class Market implements IMCEngineCurrencyAddOn {
 
         try {
             PluginManager pluginManager = Bukkit.getPluginManager();
+            pluginManager.registerEvents(new MarketListener(plugin, logger), plugin);
 
             Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             commandMapField.setAccessible(true);

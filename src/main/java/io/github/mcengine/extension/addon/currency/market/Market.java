@@ -22,26 +22,45 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
+/**
+ * Main class for the MCEngineMarket add-on.
+ * Registers commands, event listeners, and loads market data on plugin load.
+ */
 public class Market implements IMCEngineCurrencyAddOn {
 
+    /**
+     * Called when the add-on is loaded. Initializes logger, config files, menus, listeners, and command registration.
+     *
+     * @param plugin The Bukkit plugin instance.
+     */
     @Override
     public void onLoad(Plugin plugin) {
         MCEngineAddOnLogger logger = new MCEngineAddOnLogger(plugin, "MCEngineMarket");
+
+        // Create example config files
         MarketItemFileGenerator.createSimpleFiles(plugin, logger);
 
+        // Load all menu data from configuration
         Map<String, MenuData> menus = MarketItemLoader.loadAllMarketMenus(plugin, logger);
         MarketCache.setMenus(menus);
 
         try {
+            // Register listener
             PluginManager pluginManager = Bukkit.getPluginManager();
             pluginManager.registerEvents(new MarketListener(plugin, logger), plugin);
 
+            // Access command map using reflection
             Field commandMapField = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             commandMapField.setAccessible(true);
             CommandMap commandMap = (CommandMap) commandMapField.get(Bukkit.getServer());
 
+            // Register /market command with handler and tab completer
             Command marketCommand = new Command("market") {
+
+                /** Handler for command execution. */
                 private final MarketCommand handler = new MarketCommand();
+
+                /** Tab completer for market command. */
                 private final MarketTabCompleter completer = new MarketTabCompleter();
 
                 @Override
@@ -66,6 +85,7 @@ public class Market implements IMCEngineCurrencyAddOn {
             e.printStackTrace();
         }
 
+        // Check for plugin updates
         MCEngineApi.checkUpdate(plugin, logger.getLogger(),
             "[AddOn] [MCEngineMarket] ", "github", "MCEngine-Extension",
             "currency-addon-market", plugin.getConfig().getString("github.token", "null"));

@@ -14,8 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utility class responsible for building and opening market GUI menus for buy and sell interactions.
+ */
 public class MarketCommandUtil {
 
+    /**
+     * Opens a market buy GUI for the specified player using the given menu key.
+     *
+     * @param player  The player to open the menu for.
+     * @param menuKey The key of the menu to load from the MarketCache.
+     */
     public static void openBuyMenu(Player player, String menuKey) {
         MenuData data = MarketCache.getMenu(menuKey);
         if (data == null) {
@@ -42,6 +51,12 @@ public class MarketCommandUtil {
         player.openInventory(gui);
     }
 
+    /**
+     * Opens a market sell GUI for the specified player using the given menu key.
+     *
+     * @param player  The player to open the menu for.
+     * @param menuKey The key of the menu to load from the MarketCache.
+     */
     public static void openSellMenu(Player player, String menuKey) {
         MenuData data = MarketCache.getMenu(menuKey);
         if (data == null) {
@@ -68,6 +83,14 @@ public class MarketCommandUtil {
         player.openInventory(gui);
     }
 
+    /**
+     * Creates a decorated ItemStack with name and lore used for menu display.
+     *
+     * @param material     The material of the item.
+     * @param displayName  The display name to set.
+     * @param loreLines    The lore lines to display.
+     * @return ItemStack configured for GUI.
+     */
     private static ItemStack createMenuItem(Material material, String displayName, List<String> loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -81,6 +104,15 @@ public class MarketCommandUtil {
         return item;
     }
 
+    /**
+     * Formats the price and currency line with additional custom lore lines for display in GUI.
+     *
+     * @param price     The price value.
+     * @param currency  The currency name.
+     * @param baseLore  The custom lore lines.
+     * @param isBuy     True if buy mode; false if sell mode.
+     * @return A list of formatted lore lines.
+     */
     private static List<String> formatLore(double price, String currency, List<String> baseLore, boolean isBuy) {
         List<String> result = new ArrayList<>();
         result.add((isBuy ? "§aBuy" : "§cSell") + ": " + price + " " + currency);

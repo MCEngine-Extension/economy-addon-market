@@ -20,18 +20,37 @@ import org.bukkit.plugin.Plugin;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Listener class that handles GUI interactions for buying and selling market items.
+ */
 public class MarketListener implements Listener {
 
+    /** The plugin instance for scheduling tasks and accessing config. */
     private final Plugin plugin;
+
+    /** Logger utility for sending warnings and debug info. */
     private final MCEngineAddOnLogger logger;
+
+    /** Currency API used to check and update player balances. */
     private final MCEngineCurrencyCommon currencyApi;
 
+    /**
+     * Constructs the listener with plugin context and logger.
+     *
+     * @param plugin The plugin instance.
+     * @param logger The logger instance.
+     */
     public MarketListener(Plugin plugin, MCEngineAddOnLogger logger) {
         this.plugin = plugin;
         this.logger = logger;
         this.currencyApi = MCEngineCurrencyCommon.getApi();
     }
 
+    /**
+     * Event handler for clicking items in the custom market GUI.
+     *
+     * @param event The inventory click event.
+     */
     @EventHandler
     public void onMarketClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;

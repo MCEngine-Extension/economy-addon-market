@@ -9,10 +9,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Tab completer for the /market command.
+ * Provides suggestions for subcommands and menu names.
+ */
 public class MarketTabCompleter implements TabCompleter {
 
+    /** List of supported subcommands for /market. */
     private final List<String> subCommands = List.of("buy", "sell", "list");
 
+    /**
+     * Handles tab completion for the /market command.
+     *
+     * @param sender  The sender of the command.
+     * @param command The command that was executed.
+     * @param label   The alias of the command used.
+     * @param args    The arguments entered by the user.
+     * @return A list of suggestions based on the input.
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {

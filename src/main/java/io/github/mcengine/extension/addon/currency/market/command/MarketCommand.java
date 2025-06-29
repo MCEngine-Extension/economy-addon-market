@@ -9,8 +9,20 @@ import org.bukkit.entity.Player;
 
 import java.util.Set;
 
+/**
+ * Handles the /market command and its subcommands for buying, selling, and listing market menus.
+ */
 public class MarketCommand implements CommandExecutor {
 
+    /**
+     * Executes the market command.
+     *
+     * @param sender The command sender (player or console).
+     * @param command The command object.
+     * @param label The alias used.
+     * @param args Command arguments.
+     * @return True if the command was handled.
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {

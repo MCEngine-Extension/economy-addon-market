@@ -14,6 +14,9 @@ public class MarketItemFileGenerator {
 
     /**
      * Creates example config and item files for the market plugin.
+     *
+     * @param plugin The plugin instance used to resolve the data folder.
+     * @param logger Logger for logging file creation errors.
      */
     public static void createSimpleFiles(Plugin plugin, MCEngineAddOnLogger logger) {
         File exampleDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket/example");
@@ -51,10 +54,10 @@ public class MarketItemFileGenerator {
     /**
      * Writes a file only if it does not already exist.
      *
-     * @param file     File to write
-     * @param content  File content
-     * @param logger   Logger for error reporting
-     * @param label    Name for log identification
+     * @param file     File to write.
+     * @param content  File content to write.
+     * @param logger   Logger for error reporting.
+     * @param label    Name used for logging identification.
      */
     private static void writeFileIfNotExists(File file, String content, MCEngineAddOnLogger logger, String label) {
         if (file.exists()) return;
@@ -69,12 +72,12 @@ public class MarketItemFileGenerator {
     /**
      * Generates YAML-formatted market item content.
      *
-     * @param name       Display name of the item
-     * @param material   Bukkit material type
-     * @param position   Slot position in GUI
-     * @param buyPrice   Buy price
-     * @param sellPrice  Sell price
-     * @return YAML content string
+     * @param name       Display name of the item.
+     * @param material   Bukkit material type.
+     * @param position   Slot position in GUI.
+     * @param buyPrice   Buy price.
+     * @param sellPrice  Sell price.
+     * @return YAML content string.
      */
     private static String getExampleItemContent(String name, String material, int position, int buyPrice, int sellPrice) {
         return "name: " + name + "\n" +

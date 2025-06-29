@@ -11,8 +11,21 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Utility class to load market item and menu configuration files from disk.
+ */
 public class MarketItemLoader {
 
+    /**
+     * Loads all market menus from the plugin's configuration directory.
+     *
+     * Each folder is treated as a separate market menu, containing a config.yml
+     * and multiple item files in YAML format.
+     *
+     * @param plugin The plugin instance.
+     * @param logger Logger for warnings or errors during loading.
+     * @return A map of menu keys (folder names) to menu data objects.
+     */
     public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, MCEngineAddOnLogger logger) {
         Map<String, MenuData> allMenus = new HashMap<>();
         File baseDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket");

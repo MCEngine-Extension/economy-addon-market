@@ -5,6 +5,7 @@ import io.github.mcengine.common.currency.MCEngineCurrencyCommon;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.currency.market.util.MarketListenerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -46,9 +47,9 @@ public class MarketListener implements Listener {
             MenuData menu = entry.getValue();
             String baseName = ChatColor.stripColor(menu.getMenuConfig().getGuiName());
 
-            if (!(guiTitle.equalsIgnoreCase(baseName + " Buy") || guiTitle.equalsIgnoreCase(baseName + " Sell"))) continue;
+            if (!MarketListenerUtil.titleMatches(guiTitle, baseName, isBuy, isSell)) continue;
 
-            event.setCancelled(true); // Block taking items
+            event.setCancelled(true);
             int slot = event.getRawSlot();
             if (slot >= event.getInventory().getSize()) return;
 
@@ -71,27 +72,16 @@ public class MarketListener implements Listener {
                     }
 
                     currencyApi.minusCoin(uuid, currency, price);
-
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        player.getInventory().addItem(new ItemStack(material, 1));
+                        player.getInventory().addItem(new ItemStack(material));
                         player.sendMessage("§aYou bought §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
+
                 } else if (isSell) {
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        // Check for one item to remove
-                        ItemStack[] contents = player.getInventory().getContents();
-                        boolean found = false;
+                        boolean removed = MarketListenerUtil.removeOneItemFromInventory(player, material);
 
-                        for (int i = 0; i < contents.length; i++) {
-                            ItemStack stack = contents[i];
-                            if (stack != null && stack.getType() == material && stack.getAmount() >= 1) {
-                                stack.setAmount(stack.getAmount() - 1);
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (!found) {
+                        if (!removed) {
                             player.sendMessage("§cYou don't have any " + config.getName() + " to sell.");
                             return;
                         }

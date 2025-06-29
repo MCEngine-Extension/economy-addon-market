@@ -23,7 +23,8 @@ public class MarketCommandUtil {
             return;
         }
 
-        Inventory gui = Bukkit.createInventory(null, 54, data.getMenuConfig().getGuiName());
+        String guiTitle = data.getMenuConfig().getGuiName() + " Buy";
+        Inventory gui = Bukkit.createInventory(null, 54, guiTitle);
 
         for (Map.Entry<Integer, MarketItemConfig> entry : data.getItems().entrySet()) {
             int slot = entry.getKey();
@@ -48,7 +49,8 @@ public class MarketCommandUtil {
             return;
         }
 
-        Inventory gui = Bukkit.createInventory(null, 54, data.getMenuConfig().getGuiName());
+        String guiTitle = data.getMenuConfig().getGuiName() + " Sell";
+        Inventory gui = Bukkit.createInventory(null, 54, guiTitle);
 
         for (Map.Entry<Integer, MarketItemConfig> entry : data.getItems().entrySet()) {
             int slot = entry.getKey();

@@ -32,7 +32,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§a" + config.getName(),
-                formatLore(config.getBuyPrice(), config.getBuyLore(), true)
+                formatLore(config.getBuyPrice(), config.getCurrency(), config.getBuyLore(), true)
             );
 
             gui.setItem(slot, item);
@@ -57,7 +57,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§c" + config.getName(),
-                formatLore(config.getSellPrice(), config.getSellLore(), false)
+                formatLore(config.getSellPrice(), config.getCurrency(), config.getSellLore(), false)
             );
 
             gui.setItem(slot, item);
@@ -79,10 +79,14 @@ public class MarketCommandUtil {
         return item;
     }
 
-    private static List<String> formatLore(double price, List<String> baseLore, boolean isBuy) {
+    private static List<String> formatLore(double price, String currency, List<String> baseLore, boolean isBuy) {
         List<String> result = new ArrayList<>();
-        result.add((isBuy ? "§aBuy" : "§cSell") + ": " + price);
-        result.addAll(baseLore);
+        result.add((isBuy ? "§aBuy" : "§cSell") + ": " + price + " " + currency);
+
+        for (String line : baseLore) {
+            result.add("§f" + line);
+        }
+
         return result;
     }
 }

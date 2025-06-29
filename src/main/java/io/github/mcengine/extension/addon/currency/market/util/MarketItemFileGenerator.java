@@ -8,15 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Utility class to generate example market item configuration files.
+ * Utility class to generate example market item configuration files for demonstration or testing.
  */
 public class MarketItemFileGenerator {
 
     /**
-     * Creates example config and item files for the market plugin.
+     * Creates example config and item YAML files for the market plugin, if they do not already exist.
+     * <p>
+     * Files created:
+     * - config.yml: defines the menu name.
+     * - example.yml: example item (Stone).
+     * - example2.yml: example item (Diamond).
      *
      * @param plugin The plugin instance used to resolve the data folder.
-     * @param logger Logger for logging file creation errors.
+     * @param logger Logger for logging file creation issues.
      */
     public static void createSimpleFiles(Plugin plugin, MCEngineAddOnLogger logger) {
         File exampleDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket/example");
@@ -26,7 +31,7 @@ public class MarketItemFileGenerator {
             return;
         }
 
-        // Create main config.yml
+        // Create config.yml with GUI name
         writeFileIfNotExists(
             new File(exampleDir, "config.yml"),
             "name: Example\n",
@@ -34,30 +39,30 @@ public class MarketItemFileGenerator {
             "config.yml"
         );
 
-        // Create example.yml (stone item)
+        // Create example item: Stone
         writeFileIfNotExists(
             new File(exampleDir, "example.yml"),
-            getExampleItemContent("Stone", "STONE", 1, 10, 5),
+            getExampleItemContent("Stone", "STONE", 1, 1, 10, 5),
             logger,
             "example.yml"
         );
 
-        // Create example2.yml (diamond item)
+        // Create example item: Diamond
         writeFileIfNotExists(
             new File(exampleDir, "example2.yml"),
-            getExampleItemContent("Diamond", "DIAMOND", 2, 500, 250),
+            getExampleItemContent("Diamond", "DIAMOND", 2, 3, 500, 250),
             logger,
             "example2.yml"
         );
     }
 
     /**
-     * Writes a file only if it does not already exist.
+     * Writes content to a file only if it does not already exist.
      *
-     * @param file     File to write.
-     * @param content  File content to write.
-     * @param logger   Logger for error reporting.
-     * @param label    Name used for logging identification.
+     * @param file    The file to write to.
+     * @param content The content to write into the file.
+     * @param logger  Logger used to log errors.
+     * @param label   The name used for logging purposes.
      */
     private static void writeFileIfNotExists(File file, String content, MCEngineAddOnLogger logger, String label) {
         if (file.exists()) return;
@@ -70,21 +75,23 @@ public class MarketItemFileGenerator {
     }
 
     /**
-     * Generates YAML-formatted market item content.
+     * Generates a string representing the contents of a market item YAML file.
      *
-     * @param name       Display name of the item.
-     * @param material   Bukkit material type.
-     * @param position   Slot position in GUI.
-     * @param buyPrice   Buy price.
-     * @param sellPrice  Sell price.
-     * @return YAML content string.
+     * @param name      The display name of the item.
+     * @param material  The Bukkit material type of the item.
+     * @param position  The GUI slot position of the item.
+     * @param amount    The number of items in each transaction.
+     * @param buyPrice  The price to buy a full amount of the item.
+     * @param sellPrice The price to sell a full amount of the item.
+     * @return A formatted YAML string representing the item.
      */
-    private static String getExampleItemContent(String name, String material, int position, int buyPrice, int sellPrice) {
+    private static String getExampleItemContent(String name, String material, int position, int amount, int buyPrice, int sellPrice) {
         return "name: " + name + "\n" +
                "position: " + position + "\n" +
                "currency: coin\n" +
                "item:\n" +
                "  type: " + material + "\n" +
+               "  amount: " + amount + "\n" +
                "  buy:\n" +
                "    price: " + buyPrice + "\n" +
                "    lore:\n" +

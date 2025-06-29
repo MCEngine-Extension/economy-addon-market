@@ -18,13 +18,14 @@ public class MarketItemLoader {
 
     /**
      * Loads all market menus from the plugin's configuration directory.
+     * <p>
+     * Each subdirectory is treated as a separate market menu, containing:
+     * - A config.yml for general menu settings.
+     * - One or more item files (YAML) describing buy/sell prices, lore, amount, etc.
      *
-     * Each folder is treated as a separate market menu, containing a config.yml
-     * and multiple item files in YAML format.
-     *
-     * @param plugin The plugin instance.
-     * @param logger Logger for warnings or errors during loading.
-     * @return A map of menu keys (folder names) to menu data objects.
+     * @param plugin The plugin instance used to locate the data folder.
+     * @param logger Logger used to report configuration issues or warnings.
+     * @return A map of menu keys (folder names) to their corresponding {@link MenuData} objects.
      */
     public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, MCEngineAddOnLogger logger) {
         Map<String, MenuData> allMenus = new HashMap<>();
@@ -79,7 +80,15 @@ public class MarketItemLoader {
                 double sell = itemConfig.getDouble("item.sell.price", 0.0);
                 List<String> sellLore = itemConfig.getStringList("item.sell.lore");
 
-                MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, buyLore, sellLore);
+                int amount = itemConfig.getInt("item.amount", 1);
+                if (amount < 1) {
+                    logger.warning("Invalid or missing 'item.amount' in file: " + file.getName() + ". Defaulting to 1.");
+                    amount = 1;
+                }
+
+                MarketItemConfig marketItem = new MarketItemConfig(
+                    name, currency, buy, sell, material, buyLore, sellLore, amount
+                );
                 items.put(position, marketItem);
             }
 

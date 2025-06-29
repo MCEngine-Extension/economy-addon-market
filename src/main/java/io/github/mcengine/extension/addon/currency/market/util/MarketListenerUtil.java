@@ -32,16 +32,35 @@ public class MarketListenerUtil {
      * @return True if an item was removed; false otherwise.
      */
     public static boolean removeOneItemFromInventory(Player player, Material material) {
+        return removeItemsFromInventory(player, material, 1);
+    }
+
+    /**
+     * Removes a specific number of items of the given material from the player's inventory.
+     *
+     * @param player   The player whose inventory to modify.
+     * @param material The item type to remove.
+     * @param amount   The number of items to remove.
+     * @return True if enough items were removed, false otherwise.
+     */
+    public static boolean removeItemsFromInventory(Player player, Material material, int amount) {
+        int remaining = amount;
         ItemStack[] contents = player.getInventory().getContents();
 
         for (int i = 0; i < contents.length; i++) {
             ItemStack stack = contents[i];
-            if (stack != null && stack.getType() == material && stack.getAmount() >= 1) {
-                stack.setAmount(stack.getAmount() - 1);
-                if (stack.getAmount() <= 0) {
+            if (stack != null && stack.getType() == material) {
+                int stackAmount = stack.getAmount();
+                if (stackAmount >= remaining) {
+                    stack.setAmount(stackAmount - remaining);
+                    if (stack.getAmount() <= 0) {
+                        player.getInventory().setItem(i, null);
+                    }
+                    return true;
+                } else {
+                    remaining -= stackAmount;
                     player.getInventory().setItem(i, null);
                 }
-                return true;
             }
         }
 

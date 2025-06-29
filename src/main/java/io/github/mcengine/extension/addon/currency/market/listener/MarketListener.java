@@ -22,6 +22,8 @@ import java.util.UUID;
 
 /**
  * Listener class that handles GUI interactions for buying and selling market items.
+ * <p>
+ * Handles balance checks, item transactions, and player feedback for both buying and selling.
  */
 public class MarketListener implements Listener {
 
@@ -80,33 +82,35 @@ public class MarketListener implements Listener {
                 String currency = config.getCurrency();
                 double price = isBuy ? config.getBuyPrice() : config.getSellPrice();
                 Material material = config.getItemType();
+                int amount = config.getAmount();
 
                 if (isBuy) {
                     double balance = currencyApi.getCoin(uuid, currency);
                     if (balance < price) {
                         Bukkit.getScheduler().runTask(plugin, () ->
-                            player.sendMessage("§cNot enough " + currency + " to buy this item.")
+                            player.sendMessage("§cNot enough " + currency + " to buy §f" + amount + "x " + config.getName() + "§c.")
                         );
                         return;
                     }
 
                     currencyApi.minusCoin(uuid, currency, price);
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        player.getInventory().addItem(new ItemStack(material));
-                        player.sendMessage("§aYou bought §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
+                        ItemStack stack = new ItemStack(material, amount);
+                        player.getInventory().addItem(stack);
+                        player.sendMessage("§aYou bought §f" + amount + "x " + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
 
                 } else if (isSell) {
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        boolean removed = MarketListenerUtil.removeOneItemFromInventory(player, material);
+                        boolean removed = MarketListenerUtil.removeItemsFromInventory(player, material, amount);
 
                         if (!removed) {
-                            player.sendMessage("§cYou don't have any " + config.getName() + " to sell.");
+                            player.sendMessage("§cYou don't have §f" + amount + "x " + config.getName() + "§c to sell.");
                             return;
                         }
 
                         currencyApi.addCoin(uuid, currency, price);
-                        player.sendMessage("§aYou sold §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
+                        player.sendMessage("§aYou sold §f" + amount + "x " + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
                 }
             });

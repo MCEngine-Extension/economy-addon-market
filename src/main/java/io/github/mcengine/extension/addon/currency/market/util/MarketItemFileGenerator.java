@@ -21,6 +21,10 @@ public class MarketItemFileGenerator {
      */
     public static void createSimpleFiles(Plugin plugin, MCEngineAddOnLogger logger) {
         File baseDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket");
+        if (baseDir.exists()) {
+            logger.info("Base config folder already exists, skipping example file generation.");
+            return;
+        }
 
         createExampleSet(
             new File(baseDir, "example"),

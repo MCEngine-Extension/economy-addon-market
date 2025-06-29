@@ -7,17 +7,14 @@ import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -75,12 +72,6 @@ public class MarketListener implements Listener {
 
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         ItemStack item = new ItemStack(config.getItemType());
-                        ItemMeta meta = item.getItemMeta();
-                        if (meta != null) {
-                            meta.setDisplayName("§f" + config.getName());
-                            meta.setLore(formatLore(config.getBuyLore()));
-                            item.setItemMeta(meta);
-                        }
                         player.getInventory().addItem(item);
                         player.sendMessage("§aYou bought §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
@@ -95,9 +86,5 @@ public class MarketListener implements Listener {
 
             break;
         }
-    }
-
-    private List<String> formatLore(List<String> raw) {
-        return raw.stream().map(line -> "§f" + line).toList();
     }
 }

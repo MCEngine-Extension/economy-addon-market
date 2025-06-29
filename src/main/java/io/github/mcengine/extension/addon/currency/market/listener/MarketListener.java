@@ -7,6 +7,7 @@ import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -58,6 +59,7 @@ public class MarketListener implements Listener {
                 UUID uuid = player.getUniqueId();
                 String currency = config.getCurrency();
                 double price = isBuy ? config.getBuyPrice() : config.getSellPrice();
+                Material material = config.getItemType();
 
                 if (isBuy) {
                     double balance = currencyApi.getCoin(uuid, currency);
@@ -71,16 +73,32 @@ public class MarketListener implements Listener {
                     currencyApi.minusCoin(uuid, currency, price);
 
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        ItemStack item = new ItemStack(config.getItemType());
-                        player.getInventory().addItem(item);
+                        player.getInventory().addItem(new ItemStack(material, 1));
                         player.sendMessage("§aYou bought §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
                 } else if (isSell) {
-                    currencyApi.addCoin(uuid, currency, price);
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        // Check for one item to remove
+                        ItemStack[] contents = player.getInventory().getContents();
+                        boolean found = false;
 
-                    Bukkit.getScheduler().runTask(plugin, () ->
-                        player.sendMessage("§aYou sold §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.")
-                    );
+                        for (int i = 0; i < contents.length; i++) {
+                            ItemStack stack = contents[i];
+                            if (stack != null && stack.getType() == material && stack.getAmount() >= 1) {
+                                stack.setAmount(stack.getAmount() - 1);
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (!found) {
+                            player.sendMessage("§cYou don't have any " + config.getName() + " to sell.");
+                            return;
+                        }
+
+                        currencyApi.addCoin(uuid, currency, price);
+                        player.sendMessage("§aYou sold §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
+                    });
                 }
             });
 

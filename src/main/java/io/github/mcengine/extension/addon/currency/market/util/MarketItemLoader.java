@@ -43,6 +43,12 @@ public class MarketItemLoader {
 
                 YamlConfiguration itemConfig = YamlConfiguration.loadConfiguration(file);
                 String name = itemConfig.getString("name", "Unnamed Item");
+                int position = itemConfig.getInt("position", -1);
+                if (position < 0 || position > 53) {
+                    logger.warning("Invalid or missing 'position' in file: " + file.getName());
+                    continue;
+                }
+
                 String currency = itemConfig.getString("currency", "coin");
                 String type = itemConfig.getString("item.type", "STONE");
 
@@ -61,13 +67,7 @@ public class MarketItemLoader {
                 List<String> sellLore = itemConfig.getStringList("item.sell.lore");
 
                 MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, buyLore, sellLore);
-
-                try {
-                    int slot = Integer.parseInt(file.getName().replace(".yml", ""));
-                    items.put(slot, marketItem);
-                } catch (NumberFormatException e) {
-                    logger.warning("Invalid filename (not numeric slot): " + file.getName());
-                }
+                items.put(position, marketItem);
             }
 
             allMenus.put(folder.getName(), new MenuData(menuConfig, items));

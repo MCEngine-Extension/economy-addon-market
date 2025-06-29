@@ -18,7 +18,7 @@ public class MarketItemFileGenerator {
         }
 
         File configFile = new File(exampleDir, "config.yml");
-        File itemFile = new File(exampleDir, "1.yml");
+        File itemFile = new File(exampleDir, "example.yml");
 
         // Create config.yml
         if (!configFile.exists()) {
@@ -33,6 +33,7 @@ public class MarketItemFileGenerator {
         if (!itemFile.exists()) {
             try (FileWriter writer = new FileWriter(itemFile)) {
                 writer.write("name: Stone\n");
+                writer.write("position: 1\n");
                 writer.write("currency: coin\n");
                 writer.write("item:\n");
                 writer.write("  type: STONE\n");

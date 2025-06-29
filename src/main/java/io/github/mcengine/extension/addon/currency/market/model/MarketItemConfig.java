@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import java.util.List;
 
 /**
- * Represents the configuration for a market item, including buy/sell price and lore.
+ * Represents the configuration for a market item, including amount, buy/sell price, and lore.
  */
 public class MarketItemConfig {
 
@@ -15,11 +15,11 @@ public class MarketItemConfig {
     /** The type of currency used for transactions. */
     private final String currency;
 
-    /** The buy price of the item. */
-    private final double buyPrice;
+    /** The base buy price of a single item. */
+    private final double baseBuyPrice;
 
-    /** The sell price of the item. */
-    private final double sellPrice;
+    /** The base sell price of a single item. */
+    private final double baseSellPrice;
 
     /** The Bukkit {@link Material} type of the item. */
     private final Material itemType;
@@ -30,74 +30,80 @@ public class MarketItemConfig {
     /** The lore displayed when selling the item. */
     private final List<String> sellLore;
 
+    /** The quantity of items involved in the transaction. */
+    private final int amount;
+
     /**
      * Constructs a new MarketItemConfig object.
      *
-     * @param name      Item name
-     * @param currency  Currency type
-     * @param buyPrice  Buy price
-     * @param sellPrice Sell price
-     * @param itemType  Bukkit material type
-     * @param buyLore   Lore shown when buying
-     * @param sellLore  Lore shown when selling
+     * @param name         Item name
+     * @param currency     Currency type
+     * @param baseBuyPrice Price per item when buying
+     * @param baseSellPrice Price per item when selling
+     * @param itemType     Bukkit material type
+     * @param buyLore      Lore shown when buying
+     * @param sellLore     Lore shown when selling
+     * @param amount       Quantity involved in each transaction
      */
-    public MarketItemConfig(String name, String currency, double buyPrice, double sellPrice, Material itemType,
-                            List<String> buyLore, List<String> sellLore) {
+    public MarketItemConfig(String name, String currency, double baseBuyPrice, double baseSellPrice,
+                            Material itemType, List<String> buyLore, List<String> sellLore, int amount) {
         this.name = name;
         this.currency = currency;
-        this.buyPrice = buyPrice;
-        this.sellPrice = sellPrice;
+        this.baseBuyPrice = baseBuyPrice;
+        this.baseSellPrice = baseSellPrice;
         this.itemType = itemType;
         this.buyLore = buyLore;
         this.sellLore = sellLore;
+        this.amount = amount;
     }
 
-    /**
-     * @return The item name.
-     */
+    /** @return The item name. */
     public String getName() {
         return name;
     }
 
-    /**
-     * @return The currency type used.
-     */
+    /** @return The currency type used. */
     public String getCurrency() {
         return currency;
     }
 
-    /**
-     * @return The buy price of the item.
-     */
+    /** @return The total buy price (base price * amount). */
     public double getBuyPrice() {
-        return buyPrice;
+        return baseBuyPrice * amount;
     }
 
-    /**
-     * @return The sell price of the item.
-     */
+    /** @return The total sell price (base price * amount). */
     public double getSellPrice() {
-        return sellPrice;
+        return baseSellPrice * amount;
     }
 
-    /**
-     * @return The Bukkit {@link Material} type.
-     */
+    /** @return The base price per item when buying. */
+    public double getBaseBuyPrice() {
+        return baseBuyPrice;
+    }
+
+    /** @return The base price per item when selling. */
+    public double getBaseSellPrice() {
+        return baseSellPrice;
+    }
+
+    /** @return The Bukkit {@link Material} type. */
     public Material getItemType() {
         return itemType;
     }
 
-    /**
-     * @return The lore shown when buying.
-     */
+    /** @return The lore shown when buying. */
     public List<String> getBuyLore() {
         return buyLore;
     }
 
-    /**
-     * @return The lore shown when selling.
-     */
+    /** @return The lore shown when selling. */
     public List<String> getSellLore() {
         return sellLore;
+    }
+
+    /** @return The number of items in each transaction. */
+    public int getAmount() {
+        return amount;
     }
 }

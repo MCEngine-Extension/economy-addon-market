@@ -42,7 +42,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§a" + config.getName(),
-                formatLore(config.getBuyPrice(), config.getCurrency(), config.getBuyLore(), true)
+                formatLore(config.getBuyPrice(), config.getCurrency(), config.getBuyLore(), true, config.getAmount())
             );
 
             gui.setItem(slot, item);
@@ -74,7 +74,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§c" + config.getName(),
-                formatLore(config.getSellPrice(), config.getCurrency(), config.getSellLore(), false)
+                formatLore(config.getSellPrice(), config.getCurrency(), config.getSellLore(), false, config.getAmount())
             );
 
             gui.setItem(slot, item);
@@ -105,22 +105,21 @@ public class MarketCommandUtil {
     }
 
     /**
-     * Formats the price and currency line with additional custom lore lines for display in GUI.
+     * Formats the price and currency line with amount and additional custom lore lines for display in GUI.
      *
-     * @param price     The price value.
-     * @param currency  The currency name.
-     * @param baseLore  The custom lore lines.
-     * @param isBuy     True if buy mode; false if sell mode.
+     * @param totalPrice The total price for the given amount.
+     * @param currency   The currency name.
+     * @param baseLore   The custom lore lines.
+     * @param isBuy      True if buy mode; false if sell mode.
+     * @param amount     Number of items being traded.
      * @return A list of formatted lore lines.
      */
-    private static List<String> formatLore(double price, String currency, List<String> baseLore, boolean isBuy) {
+    private static List<String> formatLore(double totalPrice, String currency, List<String> baseLore, boolean isBuy, int amount) {
         List<String> result = new ArrayList<>();
-        result.add((isBuy ? "§aBuy" : "§cSell") + ": " + price + " " + currency);
-
+        result.add((isBuy ? "§aBuy" : "§cSell") + ": " + amount + " for " + totalPrice + " " + currency);
         for (String line : baseLore) {
             result.add("§f" + line);
         }
-
         return result;
     }
 }

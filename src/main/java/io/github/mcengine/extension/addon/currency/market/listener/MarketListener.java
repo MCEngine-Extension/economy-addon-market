@@ -22,20 +22,23 @@ import java.util.UUID;
 
 /**
  * Listener class that handles GUI interactions for buying and selling market items.
+ * <p>
+ * Handles balance checks, inventory checks, item transactions, and feedback to the player
+ * for both buy and sell menus.
  */
 public class MarketListener implements Listener {
 
-    /** The plugin instance for scheduling tasks and accessing config. */
+    /** The plugin instance used for scheduling tasks and accessing configuration. */
     private final Plugin plugin;
 
-    /** Logger utility for sending warnings and debug info. */
+    /** Logger for reporting warnings and debug messages. */
     private final MCEngineAddOnLogger logger;
 
-    /** Currency API used to check and update player balances. */
+    /** API to access and manipulate currency balances. */
     private final MCEngineCurrencyCommon currencyApi;
 
     /**
-     * Constructs the listener with plugin context and logger.
+     * Constructs a new MarketListener.
      *
      * @param plugin The plugin instance.
      * @param logger The logger instance.
@@ -47,9 +50,12 @@ public class MarketListener implements Listener {
     }
 
     /**
-     * Event handler for clicking items in the custom market GUI.
+     * Handles clicks on custom market GUI items.
+     * <p>
+     * Cancels inventory interaction if the click occurs inside a market buy/sell GUI.
+     * If the clicked item corresponds to a configured market item, it will attempt to buy/sell.
      *
-     * @param event The inventory click event.
+     * @param event The InventoryClickEvent.
      */
     @EventHandler
     public void onMarketClick(InventoryClickEvent event) {
@@ -80,33 +86,42 @@ public class MarketListener implements Listener {
                 String currency = config.getCurrency();
                 double price = isBuy ? config.getBuyPrice() : config.getSellPrice();
                 Material material = config.getItemType();
+                int amount = config.getAmount();
 
                 if (isBuy) {
                     double balance = currencyApi.getCoin(uuid, currency);
                     if (balance < price) {
                         Bukkit.getScheduler().runTask(plugin, () ->
-                            player.sendMessage("§cNot enough " + currency + " to buy this item.")
+                            player.sendMessage("§cNot enough " + currency + " to buy §f" + amount + "x " + config.getName() + "§c.")
+                        );
+                        return;
+                    }
+
+                    if (!MarketListenerUtil.hasInventorySpace(player, material, amount)) {
+                        Bukkit.getScheduler().runTask(plugin, () ->
+                            player.sendMessage("§cYou don't have enough inventory space to buy §f" + amount + "x " + config.getName() + "§c.")
                         );
                         return;
                     }
 
                     currencyApi.minusCoin(uuid, currency, price);
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        player.getInventory().addItem(new ItemStack(material));
-                        player.sendMessage("§aYou bought §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
+                        ItemStack stack = new ItemStack(material, amount);
+                        player.getInventory().addItem(stack);
+                        player.sendMessage("§aYou bought §f" + amount + "x " + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
 
                 } else if (isSell) {
                     Bukkit.getScheduler().runTask(plugin, () -> {
-                        boolean removed = MarketListenerUtil.removeOneItemFromInventory(player, material);
+                        boolean removed = MarketListenerUtil.removeItemsFromInventory(player, material, amount);
 
                         if (!removed) {
-                            player.sendMessage("§cYou don't have any " + config.getName() + " to sell.");
+                            player.sendMessage("§cYou don't have §f" + amount + "x " + config.getName() + "§c to sell.");
                             return;
                         }
 
                         currencyApi.addCoin(uuid, currency, price);
-                        player.sendMessage("§aYou sold §f" + config.getName() + "§a for §e" + price + " " + currency + "§a.");
+                        player.sendMessage("§aYou sold §f" + amount + "x " + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
                 }
             });

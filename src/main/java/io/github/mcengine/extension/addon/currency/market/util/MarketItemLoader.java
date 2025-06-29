@@ -60,12 +60,7 @@ public class MarketItemLoader {
                 double sell = itemConfig.getDouble("item.sell.price", 0.0);
                 List<String> sellLore = itemConfig.getStringList("item.sell.lore");
 
-                // Merge both lore lists, or use buyLore only (or customize as needed)
-                List<String> combinedLore = new ArrayList<>();
-                combinedLore.addAll(buyLore);
-                combinedLore.addAll(sellLore);
-
-                MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, combinedLore);
+                MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, buyLore, sellLore);
 
                 try {
                     int slot = Integer.parseInt(file.getName().replace(".yml", ""));

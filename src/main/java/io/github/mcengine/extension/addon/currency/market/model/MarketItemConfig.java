@@ -1,7 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.model;
 
 import org.bukkit.Material;
-
 import java.util.List;
 
 public class MarketItemConfig {
@@ -10,15 +9,18 @@ public class MarketItemConfig {
     private final double buyPrice;
     private final double sellPrice;
     private final Material itemType;
-    private final List<String> lore;
+    private final List<String> buyLore;
+    private final List<String> sellLore;
 
-    public MarketItemConfig(String name, String currency, double buyPrice, double sellPrice, Material itemType, List<String> lore) {
+    public MarketItemConfig(String name, String currency, double buyPrice, double sellPrice, Material itemType,
+                            List<String> buyLore, List<String> sellLore) {
         this.name = name;
         this.currency = currency;
         this.buyPrice = buyPrice;
         this.sellPrice = sellPrice;
         this.itemType = itemType;
-        this.lore = lore;
+        this.buyLore = buyLore;
+        this.sellLore = sellLore;
     }
 
     public String getName() {
@@ -41,7 +43,11 @@ public class MarketItemConfig {
         return itemType;
     }
 
-    public List<String> getLore() {
-        return lore;
+    public List<String> getBuyLore() {
+        return buyLore;
+    }
+
+    public List<String> getSellLore() {
+        return sellLore;
     }
 }

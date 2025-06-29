@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§a" + config.getName(),
-                "§7Buy: " + config.getBuyPrice()
+                formatLore(config.getBuyPrice(), config.getBuyLore(), true)
             );
 
             gui.setItem(slot, item);
@@ -56,7 +57,7 @@ public class MarketCommandUtil {
             ItemStack item = createMenuItem(
                 config.getItemType(),
                 "§c" + config.getName(),
-                "§7Sell: " + config.getSellPrice()
+                formatLore(config.getSellPrice(), config.getSellLore(), false)
             );
 
             gui.setItem(slot, item);
@@ -65,16 +66,23 @@ public class MarketCommandUtil {
         player.openInventory(gui);
     }
 
-    private static ItemStack createMenuItem(Material material, String displayName, String lore) {
+    private static ItemStack createMenuItem(Material material, String displayName, List<String> loreLines) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
             meta.setDisplayName(displayName);
-            meta.setLore(List.of(lore));
+            meta.setLore(loreLines);
             item.setItemMeta(meta);
         }
 
         return item;
+    }
+
+    private static List<String> formatLore(double price, List<String> baseLore, boolean isBuy) {
+        List<String> result = new ArrayList<>();
+        result.add((isBuy ? "§aBuy" : "§cSell") + ": " + price);
+        result.addAll(baseLore);
+        return result;
     }
 }

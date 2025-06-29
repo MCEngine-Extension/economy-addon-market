@@ -10,14 +10,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
 import java.util.Map;
 
 public class MarketCommandUtil {
 
-    public static void openBuyMenu(Player player) {
-        MenuData data = MarketCache.getMenu("buy"); // or "example" or other folder name
+    public static void openBuyMenu(Player player, String menuKey) {
+        MenuData data = MarketCache.getMenu(menuKey);
         if (data == null) {
-            player.sendMessage("§cBuy menu is not available.");
+            player.sendMessage("§cMarket menu not found: " + menuKey);
             return;
         }
 
@@ -26,15 +27,42 @@ public class MarketCommandUtil {
         for (Map.Entry<Integer, MarketItemConfig> entry : data.getItems().entrySet()) {
             int slot = entry.getKey();
             MarketItemConfig config = entry.getValue();
-            ItemStack item = createMenuItem(config.getItemType(), "§a" + config.getName(), "§7Buy: " + config.getBuyPrice());
+
+            ItemStack item = createMenuItem(
+                config.getItemType(),
+                "§a" + config.getName(),
+                "§7Buy: " + config.getBuyPrice()
+            );
+
             gui.setItem(slot, item);
         }
 
         player.openInventory(gui);
     }
 
-    public static void openSellMenu(Player player) {
-        player.sendMessage("§cSell menu not implemented yet.");
+    public static void openSellMenu(Player player, String menuKey) {
+        MenuData data = MarketCache.getMenu(menuKey);
+        if (data == null) {
+            player.sendMessage("§cMarket menu not found: " + menuKey);
+            return;
+        }
+
+        Inventory gui = Bukkit.createInventory(null, 54, data.getMenuConfig().getGuiName());
+
+        for (Map.Entry<Integer, MarketItemConfig> entry : data.getItems().entrySet()) {
+            int slot = entry.getKey();
+            MarketItemConfig config = entry.getValue();
+
+            ItemStack item = createMenuItem(
+                config.getItemType(),
+                "§c" + config.getName(),
+                "§7Sell: " + config.getSellPrice()
+            );
+
+            gui.setItem(slot, item);
+        }
+
+        player.openInventory(gui);
     }
 
     private static ItemStack createMenuItem(Material material, String displayName, String lore) {
@@ -43,7 +71,7 @@ public class MarketCommandUtil {
 
         if (meta != null) {
             meta.setDisplayName(displayName);
-            meta.setLore(java.util.Collections.singletonList(lore));
+            meta.setLore(List.of(lore));
             item.setItemMeta(meta);
         }
 

@@ -1,5 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.tabcompleter;
 
+import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -22,6 +23,17 @@ public class MarketTabCompleter implements TabCompleter {
                 }
             }
             return suggestions;
+        }
+
+        if (args.length == 2 && (args[0].equalsIgnoreCase("buy") || args[0].equalsIgnoreCase("sell"))) {
+            String partial = args[1].toLowerCase();
+            List<String> menuKeys = new ArrayList<>();
+            for (String key : MarketCache.getAllMenus().keySet()) {
+                if (key.toLowerCase().startsWith(partial)) {
+                    menuKeys.add(key);
+                }
+            }
+            return menuKeys;
         }
 
         return Collections.emptyList();

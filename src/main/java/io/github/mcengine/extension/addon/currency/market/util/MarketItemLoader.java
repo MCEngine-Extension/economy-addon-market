@@ -44,8 +44,6 @@ public class MarketItemLoader {
                 YamlConfiguration itemConfig = YamlConfiguration.loadConfiguration(file);
                 String name = itemConfig.getString("name", "Unnamed Item");
                 String currency = itemConfig.getString("currency", "coin");
-                double buy = itemConfig.getDouble("price.buy", 0.0);
-                double sell = itemConfig.getDouble("price.sell", 0.0);
                 String type = itemConfig.getString("item.type", "STONE");
 
                 Material material;
@@ -56,8 +54,18 @@ public class MarketItemLoader {
                     continue;
                 }
 
-                List<String> lore = itemConfig.getStringList("item.lore");
-                MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, lore);
+                double buy = itemConfig.getDouble("item.buy.price", 0.0);
+                List<String> buyLore = itemConfig.getStringList("item.buy.lore");
+
+                double sell = itemConfig.getDouble("item.sell.price", 0.0);
+                List<String> sellLore = itemConfig.getStringList("item.sell.lore");
+
+                // Merge both lore lists, or use buyLore only (or customize as needed)
+                List<String> combinedLore = new ArrayList<>();
+                combinedLore.addAll(buyLore);
+                combinedLore.addAll(sellLore);
+
+                MarketItemConfig marketItem = new MarketItemConfig(name, currency, buy, sell, material, combinedLore);
 
                 try {
                     int slot = Integer.parseInt(file.getName().replace(".yml", ""));

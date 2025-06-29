@@ -1,7 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.util;
 
 import io.github.mcengine.api.mcengine.extension.addon.MCEngineAddOnLogger;
-
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -30,19 +29,23 @@ public class MarketItemFileGenerator {
             }
         }
 
-        // Create 1.yml item file
+        // Create 1.yml item file using new structure
         if (!itemFile.exists()) {
             try (FileWriter writer = new FileWriter(itemFile)) {
                 writer.write("name: Stone\n");
                 writer.write("currency: coin\n");
-                writer.write("price:\n");
-                writer.write("  buy: 10\n");
-                writer.write("  sell: 5\n");
                 writer.write("item:\n");
                 writer.write("  type: STONE\n");
-                writer.write("  lore:\n");
-                writer.write("    - \"A solid block.\"\n");
-                writer.write("    - \"Useful for building.\"\n");
+                writer.write("  buy:\n");
+                writer.write("    price: 10\n");
+                writer.write("    lore:\n");
+                writer.write("      - \"Buy this durable building block.\"\n");
+                writer.write("      - \"Strong and reliable.\"\n");
+                writer.write("  sell:\n");
+                writer.write("    price: 5\n");
+                writer.write("    lore:\n");
+                writer.write("      - \"Sell your leftover stone.\"\n");
+                writer.write("      - \"Still useful to others.\"\n");
             } catch (IOException e) {
                 logger.warning("Failed to create 1.yml: " + e.getMessage());
             }

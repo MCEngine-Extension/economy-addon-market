@@ -23,21 +23,22 @@ import java.util.UUID;
 /**
  * Listener class that handles GUI interactions for buying and selling market items.
  * <p>
- * Handles balance checks, item transactions, and player feedback for both buying and selling.
+ * Handles balance checks, inventory checks, item transactions, and feedback to the player
+ * for both buy and sell menus.
  */
 public class MarketListener implements Listener {
 
-    /** The plugin instance for scheduling tasks and accessing config. */
+    /** The plugin instance used for scheduling tasks and accessing configuration. */
     private final Plugin plugin;
 
-    /** Logger utility for sending warnings and debug info. */
+    /** Logger for reporting warnings and debug messages. */
     private final MCEngineAddOnLogger logger;
 
-    /** Currency API used to check and update player balances. */
+    /** API to access and manipulate currency balances. */
     private final MCEngineCurrencyCommon currencyApi;
 
     /**
-     * Constructs the listener with plugin context and logger.
+     * Constructs a new MarketListener.
      *
      * @param plugin The plugin instance.
      * @param logger The logger instance.
@@ -49,9 +50,12 @@ public class MarketListener implements Listener {
     }
 
     /**
-     * Event handler for clicking items in the custom market GUI.
+     * Handles clicks on custom market GUI items.
+     * <p>
+     * Cancels inventory interaction if the click occurs inside a market buy/sell GUI.
+     * If the clicked item corresponds to a configured market item, it will attempt to buy/sell.
      *
-     * @param event The inventory click event.
+     * @param event The InventoryClickEvent.
      */
     @EventHandler
     public void onMarketClick(InventoryClickEvent event) {
@@ -89,6 +93,13 @@ public class MarketListener implements Listener {
                     if (balance < price) {
                         Bukkit.getScheduler().runTask(plugin, () ->
                             player.sendMessage("§cNot enough " + currency + " to buy §f" + amount + "x " + config.getName() + "§c.")
+                        );
+                        return;
+                    }
+
+                    if (!MarketListenerUtil.hasInventorySpace(player, material, amount)) {
+                        Bukkit.getScheduler().runTask(plugin, () ->
+                            player.sendMessage("§cYou don't have enough inventory space to buy §f" + amount + "x " + config.getName() + "§c.")
                         );
                         return;
                     }

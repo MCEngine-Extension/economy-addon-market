@@ -25,6 +25,31 @@ public class MarketListenerUtil {
     }
 
     /**
+     * Checks whether the player's inventory has enough room to receive the specified number of items.
+     *
+     * @param player   The player to check.
+     * @param material The material to simulate adding.
+     * @param amount   The number of items to add.
+     * @return True if there is enough space, false otherwise.
+     */
+    public static boolean hasInventorySpace(Player player, Material material, int amount) {
+        int remaining = amount;
+        ItemStack[] contents = player.getInventory().getStorageContents();
+
+        for (ItemStack stack : contents) {
+            if (stack == null) {
+                remaining -= Math.min(remaining, material.getMaxStackSize());
+            } else if (stack.getType() == material && stack.getAmount() < stack.getMaxStackSize()) {
+                int space = stack.getMaxStackSize() - stack.getAmount();
+                remaining -= Math.min(remaining, space);
+            }
+            if (remaining <= 0) return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Removes one item of the specified material from the player's inventory, if available.
      *
      * @param player   The player whose inventory to modify.

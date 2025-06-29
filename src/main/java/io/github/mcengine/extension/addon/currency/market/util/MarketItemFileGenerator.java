@@ -48,7 +48,7 @@ public class MarketItemFileGenerator {
                 writer.write("      - \"Sell your leftover stone.\"\n");
                 writer.write("      - \"Still useful to others.\"\n");
             } catch (IOException e) {
-                logger.warning("Failed to create 1.yml: " + e.getMessage());
+                logger.warning("Failed to create example.yml: " + e.getMessage());
             }
         }
     }

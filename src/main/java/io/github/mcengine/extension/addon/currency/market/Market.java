@@ -37,11 +37,13 @@ public class Market implements IMCEngineCurrencyAddOn {
     public void onLoad(Plugin plugin) {
         MCEngineAddOnLogger logger = new MCEngineAddOnLogger(plugin, "MCEngineMarket");
 
+        String folderPath = "extensions/addons/configs/MCEngineMarket";
+
         // Create example config files
-        MarketItemFileGenerator.createSimpleFiles(plugin, logger);
+        MarketItemFileGenerator.createSimpleFiles(plugin, folderPath, logger);
 
         // Load all menu data from configuration
-        Map<String, MenuData> menus = MarketItemLoader.loadAllMarketMenus(plugin, logger);
+        Map<String, MenuData> menus = MarketItemLoader.loadAllMarketMenus(plugin, folderPath, logger);
         MarketCache.setMenus(menus);
 
         try {

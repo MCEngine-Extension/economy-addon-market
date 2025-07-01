@@ -19,8 +19,8 @@ public class MarketItemFileGenerator {
      * @param plugin The plugin instance used to resolve the data folder.
      * @param logger Logger used for reporting file creation issues.
      */
-    public static void createSimpleFiles(Plugin plugin, MCEngineAddOnLogger logger) {
-        File baseDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket");
+    public static void createSimpleFiles(Plugin plugin, String folderPath, MCEngineAddOnLogger logger) {
+        File baseDir = new File(plugin.getDataFolder(), folderPath);
         if (baseDir.exists()) {
             logger.info("Base config folder already exists, skipping example file generation.");
             return;

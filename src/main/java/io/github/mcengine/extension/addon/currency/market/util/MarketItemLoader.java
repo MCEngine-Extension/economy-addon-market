@@ -27,9 +27,9 @@ public class MarketItemLoader {
      * @param logger Logger used to report configuration issues or warnings.
      * @return A map of menu keys (folder names) to their corresponding {@link MenuData} objects.
      */
-    public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, MCEngineAddOnLogger logger) {
+    public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, String folderPath, MCEngineAddOnLogger logger) {
         Map<String, MenuData> allMenus = new HashMap<>();
-        File baseDir = new File(plugin.getDataFolder(), "configs/addons/MCEngineMarket");
+        File baseDir = new File(plugin.getDataFolder(), folderPath);
 
         if (!baseDir.exists()) {
             logger.warning("Directory not found: " + baseDir.getAbsolutePath());

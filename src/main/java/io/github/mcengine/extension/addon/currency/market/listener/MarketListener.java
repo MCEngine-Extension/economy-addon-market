@@ -1,6 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.listener;
 
-import io.github.mcengine.api.mcengine.extension.addon.MCEngineAddOnLogger;
+import io.github.mcengine.api.core.extension.addon.MCEngineAddOnLogger;
 import io.github.mcengine.common.currency.MCEngineCurrencyCommon;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;

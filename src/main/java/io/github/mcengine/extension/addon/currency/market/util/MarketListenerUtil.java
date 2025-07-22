@@ -1,5 +1,7 @@
 package io.github.mcengine.extension.addon.currency.market.util;
 
+import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -8,6 +10,15 @@ import org.bukkit.inventory.ItemStack;
  * Utility methods for handling GUI title checks and inventory item operations in the market system.
  */
 public class MarketListenerUtil {
+
+    /**
+     * Checks whether this class is loaded.
+     *
+     * @param logger The logger instance used for logging.
+     */
+    public static void check(MCEngineExtensionLogger logger) {
+        logger.info("Class: MarketCommandUtil is loadded.");
+    }
 
     /**
      * Determines if the GUI title matches a buy or sell menu.

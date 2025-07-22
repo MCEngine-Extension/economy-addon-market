@@ -1,5 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.util;
 
+import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
@@ -18,6 +19,15 @@ import java.util.Map;
  * Utility class responsible for building and opening market GUI menus for buy and sell interactions.
  */
 public class MarketCommandUtil {
+
+    /**
+     * Checks whether this class is loaded.
+     *
+     * @param logger The logger instance used for logging.
+     */
+    public static void check(MCEngineExtensionLogger logger) {
+        logger.info("Class: MarketCommandUtil is loadded.");
+    }
 
     /**
      * Opens a market buy GUI for the specified player using the given menu key.

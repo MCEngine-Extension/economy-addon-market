@@ -8,6 +8,7 @@ import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
 import io.github.mcengine.extension.addon.currency.market.listener.MarketListener;
 import io.github.mcengine.extension.addon.currency.market.tabcompleter.MarketTabCompleter;
 import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.currency.market.util.MarketCommandUtil;
 import io.github.mcengine.extension.addon.currency.market.util.MarketItemFileGenerator;
 import io.github.mcengine.extension.addon.currency.market.util.MarketItemLoader;
 
@@ -36,6 +37,8 @@ public class Market implements IMCEngineCurrencyAddOn {
     @Override
     public void onLoad(Plugin plugin) {
         MCEngineExtensionLogger logger = new MCEngineExtensionLogger(plugin, "AddOn", "MCEngineMarket");
+
+        MarketCommandUtil.check(logger);
 
         String folderPath = "extensions/addons/configs/MCEngineMarket";
 

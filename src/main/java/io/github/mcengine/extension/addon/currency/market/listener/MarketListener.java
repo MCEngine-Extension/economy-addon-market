@@ -1,6 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.listener;
 
-import io.github.mcengine.api.core.extension.addon.MCEngineAddOnLogger;
+import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import io.github.mcengine.common.currency.MCEngineCurrencyCommon;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
@@ -32,7 +32,7 @@ public class MarketListener implements Listener {
     private final Plugin plugin;
 
     /** Logger for reporting warnings and debug messages. */
-    private final MCEngineAddOnLogger logger;
+    private final MCEngineExtensionLogger logger;
 
     /** API to access and manipulate currency balances. */
     private final MCEngineCurrencyCommon currencyApi;
@@ -43,7 +43,7 @@ public class MarketListener implements Listener {
      * @param plugin The plugin instance.
      * @param logger The logger instance.
      */
-    public MarketListener(Plugin plugin, MCEngineAddOnLogger logger) {
+    public MarketListener(Plugin plugin, MCEngineExtensionLogger logger) {
         this.plugin = plugin;
         this.logger = logger;
         this.currencyApi = MCEngineCurrencyCommon.getApi();

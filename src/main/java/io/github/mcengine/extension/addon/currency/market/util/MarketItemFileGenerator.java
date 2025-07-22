@@ -1,6 +1,6 @@
 package io.github.mcengine.extension.addon.currency.market.util;
 
-import io.github.mcengine.api.core.extension.addon.MCEngineAddOnLogger;
+import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public class MarketItemFileGenerator {
      * @param plugin The plugin instance used to resolve the data folder.
      * @param logger Logger used for reporting file creation issues.
      */
-    public static void createSimpleFiles(Plugin plugin, String folderPath, MCEngineAddOnLogger logger) {
+    public static void createSimpleFiles(Plugin plugin, String folderPath, MCEngineExtensionLogger logger) {
         File baseDir = new File(plugin.getDataFolder(), folderPath);
         if (baseDir.exists()) {
             logger.info("Base config folder already exists, skipping example file generation.");
@@ -52,7 +52,7 @@ public class MarketItemFileGenerator {
      * @param items     Each item is a String array: {name, material, position, amount, buyPrice, sellPrice}.
      * @param logger    Logger used for reporting issues.
      */
-    private static void createExampleSet(File directory, String[][] items, MCEngineAddOnLogger logger) {
+    private static void createExampleSet(File directory, String[][] items, MCEngineExtensionLogger logger) {
         if (!directory.exists() && !directory.mkdirs()) {
             logger.warning("Failed to create market config folder at: " + directory.getPath());
             return;
@@ -81,7 +81,7 @@ public class MarketItemFileGenerator {
      * @param logger  Logger for error reporting.
      * @param label   Human-readable name for logs.
      */
-    private static void writeFileIfNotExists(File file, String content, MCEngineAddOnLogger logger, String label) {
+    private static void writeFileIfNotExists(File file, String content, MCEngineExtensionLogger logger, String label) {
         if (file.exists()) return;
 
         try (FileWriter writer = new FileWriter(file)) {

@@ -2,7 +2,7 @@ package io.github.mcengine.extension.addon.currency.market;
 
 import io.github.mcengine.api.currency.extension.addon.IMCEngineCurrencyAddOn;
 import io.github.mcengine.api.core.MCEngineApi;
-import io.github.mcengine.api.core.extension.addon.MCEngineAddOnLogger;
+import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
 import io.github.mcengine.extension.addon.currency.market.listener.MarketListener;
@@ -35,7 +35,7 @@ public class Market implements IMCEngineCurrencyAddOn {
      */
     @Override
     public void onLoad(Plugin plugin) {
-        MCEngineAddOnLogger logger = new MCEngineAddOnLogger(plugin, "MCEngineMarket");
+        MCEngineExtensionLogger logger = new MCEngineExtensionLogger(plugin, "AddOn", "MCEngineMarket");
 
         String folderPath = "extensions/addons/configs/MCEngineMarket";
 
@@ -92,4 +92,12 @@ public class Market implements IMCEngineCurrencyAddOn {
         "github", "MCEngine-Extension",
         "currency-addon-market", plugin.getConfig().getString("github.token", "null"));
     }
+
+    @Override
+    public void setId(String id) {
+        MCEngineApi.setId("mcengine-market");
+    }
+
+    @Override
+    public void onDisload(Plugin plugin) {}
 }

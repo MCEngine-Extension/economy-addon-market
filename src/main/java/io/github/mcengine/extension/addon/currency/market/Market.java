@@ -1,7 +1,7 @@
 package io.github.mcengine.extension.addon.currency.market;
 
 import io.github.mcengine.api.currency.extension.addon.IMCEngineCurrencyAddOn;
-import io.github.mcengine.api.core.MCEngineApi;
+import io.github.mcengine.api.core.MCEngineCoreApi;
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
 import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
@@ -93,14 +93,14 @@ public class Market implements IMCEngineCurrencyAddOn {
         }
 
         // Check for plugin updates
-        MCEngineApi.checkUpdate(plugin, logger.getLogger(),
+        MCEngineCoreApi.checkUpdate(plugin, logger.getLogger(),
         "github", "MCEngine-Extension",
         "currency-addon-market", plugin.getConfig().getString("github.token", "null"));
     }
 
     @Override
     public void setId(String id) {
-        MCEngineApi.setId("mcengine-market");
+        MCEngineCoreApi.setId("mcengine-market");
     }
 
     @Override

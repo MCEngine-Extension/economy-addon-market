@@ -12,23 +12,29 @@ import io.github.mcengine.extension.addon.currency.market.util.MarketCommandUtil
 import io.github.mcengine.extension.addon.currency.market.util.MarketItemFileGenerator;
 import io.github.mcengine.extension.addon.currency.market.util.MarketItemLoader;
 import io.github.mcengine.extension.addon.currency.market.util.MarketListenerUtil;
-
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
+import io.github.mcengine.extension.addon.currency.market.util.MarketUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Main class for the MCEngineMarket add-on.
  * Registers commands, event listeners, and loads market data on plugin load.
  */
 public class Market implements IMCEngineCurrencyAddOn {
+
+    /** The path where market configuration is stored. */
+    private final String folderPath = "extensions/addons/configs/MCEngineMarket";
 
     /**
      * Called when the add-on is loaded. Initializes logger, config files, menus, listeners, and command registration.
@@ -42,7 +48,18 @@ public class Market implements IMCEngineCurrencyAddOn {
         MarketCommandUtil.check(logger);
         MarketListenerUtil.check(logger);
 
-        String folderPath = "extensions/addons/configs/MCEngineMarket";
+        // Create config.yml if not present
+        MarketUtil.createConfig(plugin, folderPath);
+
+        // License check
+        File configFile = new File(plugin.getDataFolder(), folderPath + "/config.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        String licenseType = config.getString("license", "free");
+
+        if (!"free".equalsIgnoreCase(licenseType)) {
+            logger.warning("License is not 'free'. Disabling Market AddOn.");
+            return;
+        }
 
         // Create example config files
         MarketItemFileGenerator.createSimpleFiles(plugin, folderPath, logger);
@@ -93,11 +110,21 @@ public class Market implements IMCEngineCurrencyAddOn {
         }
     }
 
+    /**
+     * Sets the unique ID for the Market AddOn.
+     *
+     * @param id The identifier string.
+     */
     @Override
     public void setId(String id) {
         MCEngineCoreApi.setId("mcengine-market");
     }
 
+    /**
+     * Called when the add-on is unloaded.
+     *
+     * @param plugin The Bukkit plugin instance.
+     */
     @Override
     public void onDisload(Plugin plugin) {}
 }

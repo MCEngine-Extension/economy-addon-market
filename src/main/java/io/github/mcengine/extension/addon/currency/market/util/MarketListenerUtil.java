@@ -17,7 +17,7 @@ public class MarketListenerUtil {
      * @param logger The logger instance used for logging.
      */
     public static void check(MCEngineExtensionLogger logger) {
-        logger.info("Class: MarketCommandUtil is loadded.");
+        logger.info("Class: MarketListenerUtil is loadded.");
     }
 
     /**

@@ -91,11 +91,6 @@ public class Market implements IMCEngineCurrencyAddOn {
             logger.warning("Failed to initialize Market AddOn: " + e.getMessage());
             e.printStackTrace();
         }
-
-        // Check for plugin updates
-        MCEngineCoreApi.checkUpdate(plugin, logger.getLogger(),
-        "github", "MCEngine-Extension",
-        "currency-addon-market", plugin.getConfig().getString("github.token", "null"));
     }
 
     @Override

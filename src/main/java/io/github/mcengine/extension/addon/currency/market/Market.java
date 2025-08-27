@@ -45,9 +45,6 @@ public class Market implements IMCEngineCurrencyAddOn {
     public void onLoad(Plugin plugin) {
         MCEngineExtensionLogger logger = new MCEngineExtensionLogger(plugin, "AddOn", "MCEngineMarket");
 
-        MarketCommandUtil.check(logger);
-        MarketListenerUtil.check(logger);
-
         // Create config.yml if not present
         MarketUtil.createConfig(plugin, folderPath);
 

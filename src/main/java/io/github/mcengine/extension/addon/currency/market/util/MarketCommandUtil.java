@@ -21,15 +21,6 @@ import java.util.Map;
 public class MarketCommandUtil {
 
     /**
-     * Checks whether this class is loaded.
-     *
-     * @param logger The logger instance used for logging.
-     */
-    public static void check(MCEngineExtensionLogger logger) {
-        logger.info("Class: MarketCommandUtil is loadded.");
-    }
-
-    /**
      * Opens a market buy GUI for the specified player using the given menu key.
      *
      * @param player  The player to open the menu for.

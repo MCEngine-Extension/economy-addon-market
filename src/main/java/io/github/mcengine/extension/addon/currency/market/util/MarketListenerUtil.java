@@ -12,15 +12,6 @@ import org.bukkit.inventory.ItemStack;
 public class MarketListenerUtil {
 
     /**
-     * Checks whether this class is loaded.
-     *
-     * @param logger The logger instance used for logging.
-     */
-    public static void check(MCEngineExtensionLogger logger) {
-        logger.info("Class: MarketListenerUtil is loadded.");
-    }
-
-    /**
      * Determines if the GUI title matches a buy or sell menu.
      *
      * @param guiTitle The actual GUI title.

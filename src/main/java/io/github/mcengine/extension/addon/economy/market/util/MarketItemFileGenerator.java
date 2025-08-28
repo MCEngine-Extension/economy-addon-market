@@ -13,15 +13,17 @@ import java.io.IOException;
 public class MarketItemFileGenerator {
 
     /**
-     * Creates example configuration files in two directories: 'example' and 'example2'.
-     * Each directory includes a config.yml and multiple item files (YAML).
+     * Creates example configuration files inside <code>{folderPath}/list</code>:
+     * two demo menus (<code>example</code> and <code>example2</code>), each containing a
+     * <code>config.yml</code> and several item YAML files.
      *
      * @param plugin     The plugin instance used to resolve the data folder.
-     * @param folderPath The folder path relative to the plugin's data folder.
+     * @param folderPath The folder path relative to the plugin's data folder (root of the Market config).
      * @param logger     Logger used for reporting file creation issues.
      */
     public static void createSimpleFiles(Plugin plugin, String folderPath, MCEngineExtensionLogger logger) {
-        File baseDir = new File(plugin.getDataFolder(), folderPath);
+        // NOTE: Base directory moved under ".../{folderPath}/list"
+        File baseDir = new File(plugin.getDataFolder(), folderPath + "/list");
         if (baseDir.exists()) {
             logger.info("Base config folder already exists, skipping example file generation.");
             return;
@@ -69,7 +71,9 @@ public class MarketItemFileGenerator {
         for (int i = 0; i < items.length; i++) {
             String[] item = items[i];
             String fileName = "example" + (i + 1) + ".yml";
-            String content = getExampleItemContent(item[0], item[1], Integer.parseInt(item[2]), Integer.parseInt(item[3]), Integer.parseInt(item[4]), Integer.parseInt(item[5]));
+            String content = getExampleItemContent(item[0], item[1],
+                    Integer.parseInt(item[2]), Integer.parseInt(item[3]),
+                    Integer.parseInt(item[4]), Integer.parseInt(item[5]));
             writeFileIfNotExists(new File(directory, fileName), content, logger, fileName);
         }
     }

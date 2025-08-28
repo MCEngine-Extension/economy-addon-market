@@ -19,7 +19,7 @@ public class MarketItemLoader {
     /**
      * Loads all market menus from the plugin's configuration directory.
      * <p>
-     * Each subdirectory is treated as a separate market menu, containing:
+     * Each subdirectory under <code>{folderPath}/list</code> is treated as a separate market menu, containing:
      * <ul>
      *   <li>A <code>config.yml</code> for general menu settings.</li>
      *   <li>One or more item files (YAML) describing buy/sell prices, lore, amount, etc.</li>
@@ -32,7 +32,9 @@ public class MarketItemLoader {
      */
     public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, String folderPath, MCEngineExtensionLogger logger) {
         Map<String, MenuData> allMenus = new HashMap<>();
-        File baseDir = new File(plugin.getDataFolder(), folderPath);
+
+        // NOTE: Base directory moved under ".../{folderPath}/list"
+        File baseDir = new File(plugin.getDataFolder(), folderPath + "/list");
 
         if (!baseDir.exists()) {
             logger.warning("Directory not found: " + baseDir.getAbsolutePath());

@@ -32,9 +32,6 @@ public class MarketUtil {
         config.options().header("Main configuration for MCEngineMarket AddOn");
 
         config.set("license", "free");
-        config.set("market.defaultCurrency", "coin");
-        config.set("market.menu.title", "&6Market");
-        config.set("market.menu.rows", 3);
 
         try {
             config.save(configFile);

@@ -1,18 +1,18 @@
-package io.github.mcengine.extension.addon.currency.market;
+package io.github.mcengine.extension.addon.economy.market;
 
-import io.github.mcengine.api.currency.extension.addon.IMCEngineCurrencyAddOn;
+import io.github.mcengine.api.economy.extension.addon.IMCEngineEconomyAddOn;
 import io.github.mcengine.api.core.MCEngineCoreApi;
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
-import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
-import io.github.mcengine.extension.addon.currency.market.command.MarketCommand;
-import io.github.mcengine.extension.addon.currency.market.listener.MarketListener;
-import io.github.mcengine.extension.addon.currency.market.tabcompleter.MarketTabCompleter;
-import io.github.mcengine.extension.addon.currency.market.model.MenuData;
-import io.github.mcengine.extension.addon.currency.market.util.MarketCommandUtil;
-import io.github.mcengine.extension.addon.currency.market.util.MarketItemFileGenerator;
-import io.github.mcengine.extension.addon.currency.market.util.MarketItemLoader;
-import io.github.mcengine.extension.addon.currency.market.util.MarketListenerUtil;
-import io.github.mcengine.extension.addon.currency.market.util.MarketUtil;
+import io.github.mcengine.extension.addon.economy.market.cache.MarketCache;
+import io.github.mcengine.extension.addon.economy.market.command.MarketCommand;
+import io.github.mcengine.extension.addon.economy.market.listener.MarketListener;
+import io.github.mcengine.extension.addon.economy.market.tabcompleter.MarketTabCompleter;
+import io.github.mcengine.extension.addon.economy.market.model.MenuData;
+import io.github.mcengine.extension.addon.economy.market.util.MarketCommandUtil;
+import io.github.mcengine.extension.addon.economy.market.util.MarketItemFileGenerator;
+import io.github.mcengine.extension.addon.economy.market.util.MarketItemLoader;
+import io.github.mcengine.extension.addon.economy.market.util.MarketListenerUtil;
+import io.github.mcengine.extension.addon.economy.market.util.MarketUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,10 +28,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Main class for the MCEngineMarket add-on.
+ * Main class for the MCEngineMarket Economy add-on.
+ * <p>
  * Registers commands, event listeners, and loads market data on plugin load.
+ * This implementation targets the Economy API namespace.
+ * </p>
  */
-public class Market implements IMCEngineCurrencyAddOn {
+public class Market implements IMCEngineEconomyAddOn {
 
     /** The path where market configuration is stored. */
     private final String folderPath = "extensions/addons/configs/MCEngineMarket";

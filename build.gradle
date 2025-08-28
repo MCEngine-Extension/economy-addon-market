@@ -7,8 +7,11 @@ version = project.properties[project.name + '.version']
 group = 'io.github.mcengine'
 
 ext {
+    // User credentials for GitHub Packages
     user_git_name = System.getenv('USER_GIT_NAME')
     user_github_token = System.getenv('USER_GITHUB_TOKEN')
+
+    // Project JAR base name
     jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineMarket'
 }
 
@@ -45,16 +48,20 @@ allprojects {
         }
 
         configureGitHubRepo('MCEngine Core API', 'https://maven.pkg.github.com/MCEngine-API/core')
-        configureGitHubRepo('MCEngine Currency API', 'https://maven.pkg.github.com/MCEngine-API/currency')
-        configureGitHubRepo('MCEngine Currency Common', 'https://maven.pkg.github.com/MCEngine-Common/currency')
+        configureGitHubRepo('MCEngine Economy API', 'https://maven.pkg.github.com/MCEngine-API/economy')
+        configureGitHubRepo('MCEngine Economy Common', 'https://maven.pkg.github.com/MCEngine-Common/economy')
     }
 }
 
 dependencies {
+    // Core API
     compileOnly 'io.github.mcengine:core-api:2025.0.8-29'
-    compileOnly 'io.github.mcengine:currency-api:2025.0.8-29'
-    compileOnly 'io.github.mcengine:currency-common:2025.0.8-29'
 
+    // Economy API + Common (migrated)
+    compileOnly 'io.github.mcengine:economy-api:2025.0.8-29-1'
+    compileOnly 'io.github.mcengine:economy-common:2025.0.8-29-1'
+
+    // Minecraft API
     compileOnly 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
 }
 

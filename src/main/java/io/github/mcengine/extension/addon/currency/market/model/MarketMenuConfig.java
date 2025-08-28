@@ -1,7 +1,8 @@
-package io.github.mcengine.extension.addon.currency.market.model;
+package io.github.mcengine.extension.addon.economy.market.model;
 
 /**
  * Represents the configuration for a market menu GUI.
+ * Contains only metadata such as the displayed title.
  */
 public class MarketMenuConfig {
 

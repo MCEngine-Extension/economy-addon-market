@@ -1,9 +1,15 @@
-package io.github.mcengine.extension.addon.currency.market.model;
+package io.github.mcengine.extension.addon.economy.market.model;
 
 import java.util.Map;
 
 /**
  * Holds a single market menu's configuration and item mapping.
+ * <p>
+ * Each menu has:
+ * <ul>
+ *   <li>A {@link MarketMenuConfig} for metadata (e.g., GUI name).</li>
+ *   <li>A slot-indexed map of {@link MarketItemConfig} representing items.</li>
+ * </ul>
  */
 public class MenuData {
 

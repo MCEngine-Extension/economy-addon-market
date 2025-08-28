@@ -1,4 +1,4 @@
-package io.github.mcengine.extension.addon.currency.market.util;
+package io.github.mcengine.extension.addon.economy.market.util;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;

@@ -1,4 +1,4 @@
-package io.github.mcengine.extension.addon.currency.market.util;
+package io.github.mcengine.extension.addon.economy.market.util;
 
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 import org.bukkit.plugin.Plugin;
@@ -16,8 +16,9 @@ public class MarketItemFileGenerator {
      * Creates example configuration files in two directories: 'example' and 'example2'.
      * Each directory includes a config.yml and multiple item files (YAML).
      *
-     * @param plugin The plugin instance used to resolve the data folder.
-     * @param logger Logger used for reporting file creation issues.
+     * @param plugin     The plugin instance used to resolve the data folder.
+     * @param folderPath The folder path relative to the plugin's data folder.
+     * @param logger     Logger used for reporting file creation issues.
      */
     public static void createSimpleFiles(Plugin plugin, String folderPath, MCEngineExtensionLogger logger) {
         File baseDir = new File(plugin.getDataFolder(), folderPath);

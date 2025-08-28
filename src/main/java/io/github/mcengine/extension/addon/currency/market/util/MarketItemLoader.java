@@ -1,9 +1,9 @@
-package io.github.mcengine.extension.addon.currency.market.util;
+package io.github.mcengine.extension.addon.economy.market.util;
 
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
-import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
-import io.github.mcengine.extension.addon.currency.market.model.MarketMenuConfig;
-import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.economy.market.model.MarketItemConfig;
+import io.github.mcengine.extension.addon.economy.market.model.MarketMenuConfig;
+import io.github.mcengine.extension.addon.economy.market.model.MenuData;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -20,11 +20,14 @@ public class MarketItemLoader {
      * Loads all market menus from the plugin's configuration directory.
      * <p>
      * Each subdirectory is treated as a separate market menu, containing:
-     * - A config.yml for general menu settings.
-     * - One or more item files (YAML) describing buy/sell prices, lore, amount, etc.
+     * <ul>
+     *   <li>A <code>config.yml</code> for general menu settings.</li>
+     *   <li>One or more item files (YAML) describing buy/sell prices, lore, amount, etc.</li>
+     * </ul>
      *
-     * @param plugin The plugin instance used to locate the data folder.
-     * @param logger Logger used to report configuration issues or warnings.
+     * @param plugin     The plugin instance used to locate the data folder.
+     * @param folderPath The root folder path relative to the data folder.
+     * @param logger     Logger used to report configuration issues or warnings.
      * @return A map of menu keys (folder names) to their corresponding {@link MenuData} objects.
      */
     public static Map<String, MenuData> loadAllMarketMenus(Plugin plugin, String folderPath, MCEngineExtensionLogger logger) {

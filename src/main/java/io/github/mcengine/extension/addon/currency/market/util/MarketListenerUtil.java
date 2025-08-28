@@ -1,4 +1,4 @@
-package io.github.mcengine.extension.addon.currency.market.util;
+package io.github.mcengine.extension.addon.economy.market.util;
 
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
 

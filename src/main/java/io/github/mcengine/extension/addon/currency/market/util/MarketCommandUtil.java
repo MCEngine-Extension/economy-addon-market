@@ -1,9 +1,9 @@
-package io.github.mcengine.extension.addon.currency.market.util;
+package io.github.mcengine.extension.addon.economy.market.util;
 
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
-import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
-import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
-import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.economy.market.cache.MarketCache;
+import io.github.mcengine.extension.addon.economy.market.model.MarketItemConfig;
+import io.github.mcengine.extension.addon.economy.market.model.MenuData;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -85,11 +85,11 @@ public class MarketCommandUtil {
     }
 
     /**
-     * Creates a decorated ItemStack with name and lore used for menu display.
+     * Creates a decorated {@link ItemStack} with a display name and lore for menu display.
      *
-     * @param material     The material of the item.
-     * @param displayName  The display name to set.
-     * @param loreLines    The lore lines to display.
+     * @param material    The material of the item.
+     * @param displayName The display name to set.
+     * @param loreLines   The lore lines to display.
      * @return ItemStack configured for GUI.
      */
     private static ItemStack createMenuItem(Material material, String displayName, List<String> loreLines) {

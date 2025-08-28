@@ -1,7 +1,7 @@
-package io.github.mcengine.extension.addon.currency.market.command;
+package io.github.mcengine.extension.addon.economy.market.command;
 
-import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
-import io.github.mcengine.extension.addon.currency.market.util.MarketCommandUtil;
+import io.github.mcengine.extension.addon.economy.market.cache.MarketCache;
+import io.github.mcengine.extension.addon.economy.market.util.MarketCommandUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,17 +10,17 @@ import org.bukkit.entity.Player;
 import java.util.Set;
 
 /**
- * Handles the /market command and its subcommands for buying, selling, and listing market menus.
+ * Handles the <code>/market</code> command and its subcommands for buying, selling, and listing market menus.
  */
 public class MarketCommand implements CommandExecutor {
 
     /**
      * Executes the market command.
      *
-     * @param sender The command sender (player or console).
+     * @param sender  The command sender (player or console).
      * @param command The command object.
-     * @param label The alias used.
-     * @param args Command arguments.
+     * @param label   The alias used.
+     * @param args    Command arguments.
      * @return True if the command was handled.
      */
     @Override

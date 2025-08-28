@@ -1,6 +1,6 @@
-package io.github.mcengine.extension.addon.currency.market.cache;
+package io.github.mcengine.extension.addon.economy.market.cache;
 
-import io.github.mcengine.extension.addon.currency.market.model.MenuData;
+import io.github.mcengine.extension.addon.economy.market.model.MenuData;
 
 import java.util.HashMap;
 import java.util.Map;

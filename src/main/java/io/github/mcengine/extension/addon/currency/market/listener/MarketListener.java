@@ -1,11 +1,11 @@
-package io.github.mcengine.extension.addon.currency.market.listener;
+package io.github.mcengine.extension.addon.economy.market.listener;
 
 import io.github.mcengine.api.core.extension.logger.MCEngineExtensionLogger;
-import io.github.mcengine.common.currency.MCEngineCurrencyCommon;
-import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
-import io.github.mcengine.extension.addon.currency.market.model.MarketItemConfig;
-import io.github.mcengine.extension.addon.currency.market.model.MenuData;
-import io.github.mcengine.extension.addon.currency.market.util.MarketListenerUtil;
+import io.github.mcengine.common.economy.MCEngineEconomyCommon;
+import io.github.mcengine.extension.addon.economy.market.cache.MarketCache;
+import io.github.mcengine.extension.addon.economy.market.model.MarketItemConfig;
+import io.github.mcengine.extension.addon.economy.market.model.MenuData;
+import io.github.mcengine.extension.addon.economy.market.util.MarketListenerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,6 +25,7 @@ import java.util.UUID;
  * <p>
  * Handles balance checks, inventory checks, item transactions, and feedback to the player
  * for both buy and sell menus.
+ * </p>
  */
 public class MarketListener implements Listener {
 
@@ -34,8 +35,8 @@ public class MarketListener implements Listener {
     /** Logger for reporting warnings and debug messages. */
     private final MCEngineExtensionLogger logger;
 
-    /** API to access and manipulate currency balances. */
-    private final MCEngineCurrencyCommon currencyApi;
+    /** API to access and manipulate economy balances. */
+    private final MCEngineEconomyCommon economyApi;
 
     /**
      * Constructs a new MarketListener.
@@ -46,7 +47,7 @@ public class MarketListener implements Listener {
     public MarketListener(Plugin plugin, MCEngineExtensionLogger logger) {
         this.plugin = plugin;
         this.logger = logger;
-        this.currencyApi = MCEngineCurrencyCommon.getApi();
+        this.economyApi = MCEngineEconomyCommon.getApi();
     }
 
     /**
@@ -54,6 +55,7 @@ public class MarketListener implements Listener {
      * <p>
      * Cancels inventory interaction if the click occurs inside a market buy/sell GUI.
      * If the clicked item corresponds to a configured market item, it will attempt to buy/sell.
+     * </p>
      *
      * @param event The InventoryClickEvent.
      */
@@ -89,7 +91,7 @@ public class MarketListener implements Listener {
                 int amount = config.getAmount();
 
                 if (isBuy) {
-                    double balance = currencyApi.getCoin(uuid, currency);
+                    double balance = economyApi.getCoin(uuid, currency);
                     if (balance < price) {
                         Bukkit.getScheduler().runTask(plugin, () ->
                             player.sendMessage("§cNot enough " + currency + " to buy §f" + amount + "x " + config.getName() + "§c.")
@@ -104,7 +106,7 @@ public class MarketListener implements Listener {
                         return;
                     }
 
-                    currencyApi.minusCoin(uuid, currency, price);
+                    economyApi.minusCoin(uuid, currency, price);
                     Bukkit.getScheduler().runTask(plugin, () -> {
                         ItemStack stack = new ItemStack(material, amount);
                         player.getInventory().addItem(stack);
@@ -120,7 +122,7 @@ public class MarketListener implements Listener {
                             return;
                         }
 
-                        currencyApi.addCoin(uuid, currency, price);
+                        economyApi.addCoin(uuid, currency, price);
                         player.sendMessage("§aYou sold §f" + amount + "x " + config.getName() + "§a for §e" + price + " " + currency + "§a.");
                     });
                 }

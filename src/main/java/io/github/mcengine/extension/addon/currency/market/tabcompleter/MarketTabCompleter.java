@@ -1,6 +1,6 @@
-package io.github.mcengine.extension.addon.currency.market.tabcompleter;
+package io.github.mcengine.extension.addon.economy.market.tabcompleter;
 
-import io.github.mcengine.extension.addon.currency.market.cache.MarketCache;
+import io.github.mcengine.extension.addon.economy.market.cache.MarketCache;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Tab completer for the /market command.
+ * Tab completer for the <code>/market</code> command.
  * Provides suggestions for subcommands and menu names.
  */
 public class MarketTabCompleter implements TabCompleter {

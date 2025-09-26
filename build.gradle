@@ -55,11 +55,11 @@ allprojects {
 
 dependencies {
     // Core API
-    compileOnly 'io.github.mcengine:core-api:2025.0.9-26'
+    compileOnly 'io.github.mcengine:core-api:2025.0.9-27'
 
     // Economy API + Common (migrated)
-    compileOnly 'io.github.mcengine:economy-api:2025.0.9-26'
-    compileOnly 'io.github.mcengine:economy-common:2025.0.9-26'
+    compileOnly 'io.github.mcengine:economy-api:2025.0.9-27'
+    compileOnly 'io.github.mcengine:economy-common:2025.0.9-27'
 
     // Minecraft API
     compileOnly 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
